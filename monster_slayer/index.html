@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Monster Slayer</title>
+    <script src="https://unpkg.com/vue/dist/vue.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Press+Start+2P" rel="stylesheet">
+    <link href="https://unpkg.com/nes.css/css/nes.min.css" rel="stylesheet" />
+    <!-- <link rel="stylesheet" href="css/foundation.min.css"> -->
+    <link rel="stylesheet" href="css/app.css">
+    <link rel="stylesheet" href="css/nes.css">
+</head>
+<body>
+<div id="app">
+
+    <section class="nes-container is-rounded with-title" v-if="gameIsRunning">
+      <h2 class="title">The Monster</h2>
+      <progress class="nes-progress" :value="monsterHealth" max="100"
+      :class="{'is-error': monsterHealth <= 10, 'is-warning': 10 < monsterHealth && monsterHealth <= 40, 'is-success': monsterHealth > 40}"></progress>{{ monsterHealth}} / 100
+    </section>
+
+    <section class="nes-container is-rounded with-title">
+      <h2 class="title">The Player</h2>
+      <progress class="nes-progress" :value="playerHealth" max="100"
+      :class="{'is-error': playerHealth <= 10, 'is-warning': 10 < playerHealth && playerHealth <= 40, 'is-success': playerHealth > 40}"></progress>{{ playerHealth}} / 100
+    </section>
+
+    <section class="nes-container is-rounded" v-if="!gameIsRunning">
+        <div class="small-12 columns">
+            <button class="nes-btn is-primary" @click='startGame'>Look for Trouble</button>
+        </div>
+    </section>
+    <section class="nes-container is-rounded" v-if="playerTurn">
+            <button class="nes-btn"  @click='regularAttack'>ATTACK</button>
+            <button class="nes-btn is-warning" @click='specialAttack'>SPECIAL ATTACK</button>
+            <button class="nes-btn is-success" @click='usePotion'>USE POTION</button>
+            <button class="nes-btn is-error" @click="runAway">RUN</button>
+    </section>
+
+    <section class="balloon nes-container is-rounded" v-if="turns.length > 0">
+      <div class="messages">
+        <div class="message" v-for="turn in turns" :class="{'-left': turn.isPlayer, '-right': !turn.isPlayer}">
+          <div class="nes-balloon from-left"  :class="{'from-left': turn.isPlayer, 'from-right': !turn.isPlayer}">
+            <p>{{ turn.text }}</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+
+</div>
+<script src="app.js">
+
+</script>
+</body>
+</html>
